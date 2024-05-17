@@ -2,36 +2,21 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>534</height>
+    <height>686</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Login - PowerWatch</string>
-  </property>
-  <property name="autoFillBackground">
-   <bool>false</bool>
+   <string notr="true">Register - PowerWatch</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #111010;</string>
   </property>
-  <property name="dockNestingEnabled">
-   <bool>true</bool>
-  </property>
-  <property name="unifiedTitleAndToolBarOnMac">
-   <bool>false</bool>
-  </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton { 
 padding: 3px;
@@ -109,7 +94,75 @@ QPushButton:disabled {
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QFrame" name="frameName">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_4">
+            <property name="styleSheet">
+             <string notr="true">padding: 3px;
+color: black;
+background-color: white;</string>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frameSurname">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Surname</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_3">
+            <property name="styleSheet">
+             <string notr="true">padding: 3px;
+color: black;
+background-color: white;</string>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item>
         <widget class="QFrame" name="frameUsername">
          <property name="frameShape">
@@ -138,12 +191,12 @@ QPushButton:disabled {
           <item>
            <widget class="QLineEdit" name="lineEdit">
             <property name="styleSheet">
-             <string notr="true">padding: 4px;
+             <string notr="true">padding: 3px;
 color: black;
 background-color: white;</string>
             </property>
-            <property name="inputMethodHints">
-             <set>Qt::ImhLowercaseOnly</set>
+            <property name="text">
+             <string/>
             </property>
             <property name="frame">
              <bool>false</bool>
@@ -175,7 +228,7 @@ background-color: white;</string>
           <item>
            <widget class="QLineEdit" name="lineEdit_2">
             <property name="styleSheet">
-             <string notr="true">padding: 4px;
+             <string notr="true">padding: 3px;
 color: black;
 background-color: white;</string>
             </property>
@@ -200,22 +253,6 @@ background-color: white;</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton">
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Login</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="pushButton_2">
             <property name="styleSheet">
              <string notr="true"/>
@@ -229,9 +266,6 @@ background-color: white;</string>
         </widget>
        </item>
       </layout>
-      <zorder>frameUsername</zorder>
-      <zorder>frameButtons</zorder>
-      <zorder>framePassword</zorder>
      </widget>
     </item>
    </layout>
@@ -250,6 +284,7 @@ background-color: white;</string>
  </widget>
  <resources>
   <include location="ui.qrc"/>
+  <include location="../../../../../Program Files (x86)/Qt Designer/ui.qrc"/>
  </resources>
  <connections/>
 </ui>
