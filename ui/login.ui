@@ -92,7 +92,7 @@ QPushButton:disabled {
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item alignment="Qt::AlignVCenter">
-           <widget class="QLabel" name="label_3">
+           <widget class="QLabel" name="labelLogo">
             <property name="maximumSize">
              <size>
               <width>200</width>
@@ -116,8 +116,14 @@ QPushButton:disabled {
          </layout>
         </widget>
        </item>
-       <item alignment="Qt::AlignTop">
+       <item alignment="Qt::AlignHCenter|Qt::AlignTop">
         <widget class="QFrame" name="frameMain">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -135,7 +141,7 @@ QPushButton:disabled {
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="labelUsername">
                <property name="font">
                 <font>
                  <family>MS Shell Dlg 2</family>
@@ -151,7 +157,7 @@ QPushButton:disabled {
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit">
+              <widget class="QLineEdit" name="inputUsername">
                <property name="styleSheet">
                 <string notr="true">padding: 4px;
 color: black;
@@ -178,7 +184,7 @@ background-color: white;</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="labelPassword">
                <property name="styleSheet">
                 <string notr="true">color: rgb(255, 255, 255);</string>
                </property>
@@ -188,7 +194,7 @@ background-color: white;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_2">
+              <widget class="QLineEdit" name="inputPassword">
                <property name="styleSheet">
                 <string notr="true">padding: 4px;
 color: black;
@@ -215,7 +221,7 @@ background-color: white;</string>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="btnLogin">
                <property name="layoutDirection">
                 <enum>Qt::LeftToRight</enum>
                </property>
@@ -231,7 +237,7 @@ background-color: white;</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="btnRegister">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
