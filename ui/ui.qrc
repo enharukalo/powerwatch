@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="newPrefix">
-    <file>bolt-svgrepo-com.svg</file>
+  <qresource prefix="svg">
+    <file>powerwatch_logo.svg</file>
   </qresource>
 </RCC>
