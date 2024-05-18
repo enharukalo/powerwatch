@@ -88,7 +88,7 @@ QPushButton:disabled {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="ui.qrc">:/newPrefix/bolt-svgrepo-com.svg</pixmap>
+          <pixmap resource="ui.qrc">:/svg/powerwatch_logo.svg</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
