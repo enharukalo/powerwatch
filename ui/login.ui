@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Login - PowerWatch</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="ui.qrc">
+    <normaloff>:/svg/powerwatch_logo.svg</normaloff>:/svg/powerwatch_logo.svg</iconset>
+  </property>
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
@@ -45,21 +49,17 @@ background-color: white;
 QPushButton:enabled {
   background-color: #facc15; /* Yellow shade */
   color: black; /* Text color */
-cursor: pointer;
 border-radius: 3px;
-box-shadow: 0 4px #999;
 }
 
 QPushButton:pressed {
 	background-color: #facc15;
-		color: #00000;
+		color: #000000;
 }
 
 
 QPushButton:hover:!pressed {
 		background-color: #eab308;
-  box-shadow: 0 2px #666; /* Shadow effect on hover */
-  transform: translateY(-2px); /* Slight raise effect on hover */
 }
 
 QPushButton:disabled {
@@ -69,9 +69,6 @@ QPushButton:disabled {
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
@@ -124,18 +121,12 @@ QPushButton:disabled {
            <height>0</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
            <widget class="QFrame" name="frameUsername">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
@@ -176,9 +167,6 @@ background-color: white;</string>
           </item>
           <item>
            <widget class="QFrame" name="framePassword">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
