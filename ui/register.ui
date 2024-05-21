@@ -18,7 +18,10 @@
     <normaloff>:/svg/powerwatch_logo.svg</normaloff>:/svg/powerwatch_logo.svg</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #111010;</string>
+   <string notr="true">* {
+background-color: #111010;
+color: white;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -285,7 +288,7 @@ background-color: white;</string>
      <x>0</x>
      <y>0</y>
      <width>446</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
