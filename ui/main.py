@@ -177,6 +177,8 @@ class Main(QtWidgets.QMainWindow):
         
         # Device Management
         self.load_connected_devices()
+        # Available Devices
+        self.load_available_devices()
         
         # Consumption Records
         self.load_consumption_records()
@@ -337,7 +339,6 @@ class Main(QtWidgets.QMainWindow):
         QtWidgets.QMessageBox.information(self, "Success", "Meter added successfully.")
             
         self.load_registered_meters()
-        self.load_connected_devices()
     
     def remove_meter(self):
         meter_type = self.ui.comboRemoveMeter_MeterType.currentText()
@@ -375,15 +376,7 @@ class Main(QtWidgets.QMainWindow):
         self.load_connected_devices()
         
     def update_user_meters(self):
-        # Fetch the meter IDs that the user has
-        cursor = self.db.cursor()
-        cursor.execute("""
-            SELECT meter.meterID 
-            FROM usersmeters 
-            INNER JOIN meter ON usersmeters.MeterID = meter.meterID
-            WHERE usersmeters.UserID = %s
-        """ % self.userID)
-        meter_ids = [str(item[0]) for item in cursor.fetchall()]
+        meter_ids = self.fetch_user_meter_ids()
 
         # Try to disconnect the currentIndexChanged signal
         try:
@@ -433,9 +426,7 @@ class Main(QtWidgets.QMainWindow):
             self.ui.tableConnectedDevices.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.ui.tableConnectedDevices.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
-                
-        self.load_available_devices()
-        
+                        
     def load_register_new_device(self):
         # Fetch all available device IDs
         cursor = self.db.cursor()
@@ -497,8 +488,8 @@ class Main(QtWidgets.QMainWindow):
             self.ui.tableAvailableDevices.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.ui.tableAvailableDevices.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
-                    
-    def load_consumption_records(self):
+
+    def fetch_user_meter_ids(self):
         # Fetch all meter IDs associated with the current user
         cursor = self.db.cursor()
         cursor.execute("""
@@ -507,7 +498,12 @@ class Main(QtWidgets.QMainWindow):
             WHERE UserID = %s
         """ % self.userID)
         meter_ids = [str(item[0]) for item in cursor.fetchall()]
+        return meter_ids
     
+    def load_consumption_records(self):
+        # Fetch all meter IDs associated with the current user
+        meter_ids = self.fetch_user_meter_ids()
+
         # Clear the Meter ID combo boxes and add the fetched meter IDs
         self.ui.comboLogConsumption_MeterID.clear()
         self.ui.comboLogConsumption_MeterID.addItems(meter_ids)
@@ -640,15 +636,7 @@ class Main(QtWidgets.QMainWindow):
         self.draw_graph(dates, usage_amounts, 'Line Graph', self.ui.graphicsDeviceConsumptionAnalysis, 'deviceConsumptionAnalysis')
         
     def load_consumption_analytics(self):
-        cursor = self.db.cursor()
-        query = """
-            SELECT DISTINCT MeterID 
-            FROM usersmeters 
-            WHERE UserID = %s
-            ORDER BY MeterID
-        """
-        cursor.execute(query, (self.userID,))
-        meter_ids = [str(item[0]) for item in cursor.fetchall()]
+        meter_ids = self.fetch_user_meter_ids()
         self.ui.comboDailyDeviceUsage_Meter.clear()
         self.ui.comboDailyDeviceUsage_Meter.addItems(meter_ids)
         self.ui.comboHistoricalDeviceUsage_Meter.clear()
@@ -786,15 +774,7 @@ class Main(QtWidgets.QMainWindow):
         self.draw_graph(months, usage_amounts, graph_type, self.ui.graphicsMonthlyEnergyOverview, 'monthlyEnergyOverview')
     
     def load_billing_details(self):
-        cursor = self.db.cursor()
-        query = """
-            SELECT DISTINCT MeterID 
-            FROM usersmeters 
-            WHERE UserID = %s
-            ORDER BY MeterID
-        """
-        cursor.execute(query, (self.userID,))
-        meter_ids = [str(item[0]) for item in cursor.fetchall()]
+        meter_ids = self.fetch_user_meter_ids()
         self.ui.comboDailyBillSummary_Meter.clear()
         self.ui.comboDailyBillSummary_Meter.addItems(meter_ids)
         self.ui.comboMonthlyBillSummary_Meter.clear()
