@@ -575,15 +575,32 @@ class Main(QtWidgets.QMainWindow):
         # Get the selected meter ID, device ID, date of usage, and consumption duration
         selected_meter_id = self.ui.comboLogConsumption_MeterID.currentText()
         selected_device_id = self.ui.comboLogConsumption_DeviceID.currentText()
+    
         date_of_usage = self.ui.dateLogConsumption_DateOfUsage.date().toString("yyyy-MM-dd")
         consumption_duration = self.ui.doubleSpinBoxLogConsumption_ConsumptionDuration.value()
     
-        # Insert the new record into the usages table
+        # Check if a record with the same userID, deviceID, meterID, and date already exists
         cursor = self.db.cursor()
         cursor.execute("""
-            INSERT INTO usages (userID, deviceID, meterID, date, usageAmount)
-            VALUES (%s, %s, %s, %s, %s)
-        """ % (self.userID, selected_device_id, selected_meter_id, date_of_usage, consumption_duration))
+            SELECT * FROM usages
+            WHERE userID = %s AND deviceID = %s AND meterID = %s AND date = %s
+        """, (self.userID, selected_device_id, selected_meter_id, date_of_usage))
+        record = cursor.fetchone()
+    
+        if record:
+            # If a record exists, update it
+            cursor.execute("""
+                UPDATE usages
+                SET usageAmount = %s
+                WHERE userID = %s AND deviceID = %s AND meterID = %s AND date = %s
+            """, (consumption_duration, self.userID, selected_device_id, selected_meter_id, date_of_usage))
+        else:
+            # If no record exists, insert a new one
+            cursor.execute("""
+                INSERT INTO usages (userID, deviceID, meterID, date, usageAmount)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (self.userID, selected_device_id, selected_meter_id, date_of_usage, consumption_duration))
+        self.db.commit()
     
         # Update the consumption history table and the consumption analysis graph
         self.view_consumption_history()
