@@ -1,6 +1,6 @@
 # PowerWatch - Smart Energy Management System
 
-PowerWatch is a term project for the BIM214 Database Management Systems course. The main scope of the project is to manage and visualize energy data. It is developed in Python using the PyQt6 library for GUI purposes and the Matplotlib library for displaying graphs.
+PowerWatch is a term project for the Database Management Systems course. The main scope of the project is to manage and visualize energy data. It is developed in Python using the PyQt6 library for GUI purposes and the Matplotlib library for displaying graphs.
 
 ## Installation
 
@@ -33,4 +33,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[MIT](LICENSE)
+This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE) file for details.
