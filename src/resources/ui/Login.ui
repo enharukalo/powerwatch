@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>558</height>
+    <width>444</width>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -136,14 +136,8 @@ QPushButton:disabled {
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QLabel" name="labelUsername">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>8</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Username</string>
@@ -177,7 +171,7 @@ background-color: white;</string>
              <item>
               <widget class="QLabel" name="labelPassword">
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Password</string>
@@ -204,9 +198,6 @@ background-color: white;</string>
           </item>
           <item>
            <widget class="QFrame" name="frameButtons">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
@@ -256,8 +247,8 @@ background-color: white;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>446</width>
-     <height>21</height>
+     <width>444</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
