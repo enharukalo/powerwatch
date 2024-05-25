@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>879</width>
-    <height>672</height>
+    <width>826</width>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Admin Panel - PowerWatch - Smart Energy Management System</string>
+   <string>Admin Panel - PowerWatch</string>
   </property>
   <property name="windowIcon">
    <iconset resource="ui.qrc">
@@ -360,6 +360,12 @@ background-color: white;
        </item>
        <item alignment="Qt::AlignHCenter">
         <widget class="QTableWidget" name="tableUserList">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -436,7 +442,7 @@ background-color: white;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>879</width>
+     <width>826</width>
      <height>26</height>
     </rect>
    </property>

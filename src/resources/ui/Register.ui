@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>710</height>
+    <width>444</width>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,9 +57,6 @@ QPushButton:disabled {
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QFrame" name="frame">
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
@@ -125,7 +122,7 @@ QPushButton:disabled {
              <item>
               <widget class="QLabel" name="labelName">
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Name</string>
@@ -134,8 +131,14 @@ QPushButton:disabled {
              </item>
              <item>
               <widget class="QLineEdit" name="inputName">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
-                <string notr="true">padding: 3px;
+                <string notr="true">padding: 4px;
 color: black;
 background-color: white;</string>
                </property>
@@ -156,7 +159,7 @@ background-color: white;</string>
              <item>
               <widget class="QLabel" name="labelSurname">
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Surname</string>
@@ -165,8 +168,14 @@ background-color: white;</string>
              </item>
              <item>
               <widget class="QLineEdit" name="inputSurname">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
-                <string notr="true">padding: 3px;
+                <string notr="true">padding: 4px;
 color: black;
 background-color: white;</string>
                </property>
@@ -186,14 +195,8 @@ background-color: white;</string>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QLabel" name="labelUsername">
-               <property name="font">
-                <font>
-                 <family>MS Shell Dlg 2</family>
-                 <pointsize>8</pointsize>
-                </font>
-               </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Username</string>
@@ -202,8 +205,14 @@ background-color: white;</string>
              </item>
              <item>
               <widget class="QLineEdit" name="inputUsername">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
-                <string notr="true">padding: 3px;
+                <string notr="true">padding: 4px;
 color: black;
 background-color: white;</string>
                </property>
@@ -227,7 +236,7 @@ background-color: white;</string>
              <item>
               <widget class="QLabel" name="labelPassword">
                <property name="styleSheet">
-                <string notr="true">color: rgb(255, 255, 255);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Password</string>
@@ -236,8 +245,14 @@ background-color: white;</string>
              </item>
              <item>
               <widget class="QLineEdit" name="inputPassword">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
-                <string notr="true">padding: 3px;
+                <string notr="true">padding: 4px;
 color: black;
 background-color: white;</string>
                </property>
@@ -254,9 +269,6 @@ background-color: white;</string>
           </item>
           <item>
            <widget class="QFrame" name="frameButtons">
-            <property name="frameShape">
-             <enum>QFrame::StyledPanel</enum>
-            </property>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
@@ -287,8 +299,8 @@ background-color: white;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>446</width>
-     <height>21</height>
+     <width>444</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
