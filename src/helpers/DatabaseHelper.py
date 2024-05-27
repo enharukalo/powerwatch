@@ -3,7 +3,7 @@ class DatabaseHelper:
         self.db = db_connection
 
     def execute_query(self, query, params=()):
-        cursor = self.db.cursor()
+        cursor = self.db.cursor(buffered=True)
         cursor.execute(query, params)
         return cursor
 
