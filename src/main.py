@@ -637,8 +637,9 @@ class Main(QtWidgets.QMainWindow):
         query = """
             SELECT AVG(usageAmount)
             FROM (
-                SELECT SUM(usages.usageAmount) as usageAmount
+                SELECT SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`) as usageAmount
                 FROM usages 
+                JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
                 WHERE usages.userID = %s AND usages.meterID = %s AND DAYOFWEEK(usages.date) = DAYOFWEEK(CURDATE())
                 GROUP BY DATE(usages.date)
             ) as subquery
