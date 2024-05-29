@@ -619,10 +619,11 @@ class Main(QtWidgets.QMainWindow):
     def draw_daily_energy_overview(self):
         selected_meter_id = self.ui.comboDailyEnergyOverview_Meter.currentText()
         graph_type = self.ui.comboDailyEnergyOverview_GraphType.currentText()
-    
+
         query = """
-            SELECT DATE(usages.date), SUM(usages.usageAmount) 
+            SELECT DATE(usages.date), SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`) 
             FROM usages 
+            JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
             WHERE usages.userID = %s AND usages.meterID = %s
             GROUP BY DATE(usages.date)
             ORDER BY DATE(usages.date)
@@ -631,10 +632,10 @@ class Main(QtWidgets.QMainWindow):
         dates = [item[0] for item in data]
         usage_amounts = [item[1] for item in data]
         GraphHelper(self.ui.graphicsDailyEnergyOverview).draw_graph(dates, usage_amounts, graph_type, 'dailyEnergyOverview')
-    
+
         # Calculate the next day prediction
         query = """
-            SELECT AVG(usageAmount) 
+            SELECT AVG(usageAmount)
             FROM (
                 SELECT SUM(usages.usageAmount) as usageAmount
                 FROM usages 
@@ -652,10 +653,11 @@ class Main(QtWidgets.QMainWindow):
     def draw_monthly_energy_overview(self):
         selected_meter_id = self.ui.comboMonthlyEnergyOverview_Meter.currentText()
         graph_type = self.ui.comboMonthlyEnergyOverview_GraphType.currentText()
-    
+
         query = """
-            SELECT DATE_FORMAT(usages.date, '%Y-%m'), SUM(usages.usageAmount) 
+            SELECT DATE_FORMAT(usages.date, '%Y-%m'), SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`) 
             FROM usages 
+            JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
             WHERE usages.userID = %s AND usages.meterID = %s
             GROUP BY DATE_FORMAT(usages.date, '%Y-%m')
             ORDER BY DATE_FORMAT(usages.date, '%Y-%m')
