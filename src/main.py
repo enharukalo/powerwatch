@@ -384,10 +384,6 @@ class Main(QtWidgets.QMainWindow):
             WHERE usersdevices.UserID = %s AND usersdevices.MeterID = %s
         """
         cursor = self.db_helper.execute_query(query, (self.userID, selected_meter_id))
-        
-        # Check if the user has any devices connected
-        if cursor.rowcount == 0:
-            return
 
         # Populate the table with the fetched devices
         UIHelper.update_table(self.ui.tableConnectedDevices, cursor)
