@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.ticker import FuncFormatter
 from PyQt6 import QtWidgets, QtCore
 import warnings
 import numpy as np
@@ -13,7 +14,7 @@ class GraphHelper:
             'Line Graph': self.draw_line_graph
         }
 
-    def setup_graph(self):
+    def setup_graph(self, graph_name=None):
         width = self.graphics_view.frameGeometry().width()
         height = self.graphics_view.frameGeometry().height()
 
@@ -33,10 +34,14 @@ class GraphHelper:
         for spine in ax.spines.values():
             spine.set_edgecolor('white')
 
+        # Apply FuncFormatter only for specific graphs
+        if graph_name in ['monthlyEnergyConsumptionStatistics', 'totalEnergyConsumptionStatistics']:
+            ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:.0f}'.format(x)))
+
         return figure, ax
 
     def draw_bar_graph(self, labels, values, graph_name):
-        figure, ax = self.setup_graph()
+        figure, ax = self.setup_graph(graph_name)
 
         if graph_name in ['dailyDeviceUsage', 'historicalDeviceUsage']:
             ax.barh(labels, values, color='#facc10')
@@ -47,7 +52,7 @@ class GraphHelper:
         self.adjust_layout_and_draw(figure, ax)
 
     def draw_pie_chart(self, labels, values, graph_name):
-        figure, ax = self.setup_graph()
+        figure, ax = self.setup_graph(graph_name)
         ax.pie(values, labels=labels, colors=['#facc10', '#a3acff', '#ffb3ff', '#90d595', '#e48381', '#aafbff'], textprops={'color':'white'})
         self.adjust_layout_and_draw(figure, ax)
 

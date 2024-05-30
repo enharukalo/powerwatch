@@ -763,6 +763,45 @@ class AdminPanel(QtWidgets.QMainWindow):
         # Update Username Input
         self.ui.tableUserList.itemSelectionChanged.connect(self.update_username_input)
 
+        self.populate_meter_type_combo_boxes()
+        self.populate_month_combo_boxes()
+
+        self.ui.comboMonthlyEnergyConsumptionStatistics_MeterType.currentIndexChanged.connect(self.draw_monthly_energy_consumption_statistics)
+        self.ui.comboMonthlyEnergyConsumptionStatistics_Month.currentIndexChanged.connect(self.draw_monthly_energy_consumption_statistics)
+        self.ui.comboMonthlyEnergyConsumptionStatistics_GraphType.currentIndexChanged.connect(self.draw_monthly_energy_consumption_statistics)
+        self.ui.comboTotalEnergyConsumptionStatistics_MeterType.currentIndexChanged.connect(self.draw_total_energy_consumption_statistics)
+        self.ui.comboTotalEnergyConsumptionStatistics_GraphType.currentIndexChanged.connect(self.draw_total_energy_consumption_statistics)
+        self.ui.tabWidget.currentChanged.connect(self.tab_changed)
+
+        self.draw_monthly_energy_consumption_statistics()
+        self.draw_total_energy_consumption_statistics()
+
+        self.resize_timer = QTimer()
+        self.resize_timer.setSingleShot(True)
+        self.resize_timer.timeout.connect(self.redraw_graphs)
+
+        # Set font bold labelMonthlyEnergyConsumptionStatistics and labelTotalEnergyConsumptionStatistics
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.ui.labelMonthlyEnergyConsumptionStatistics.setFont(font)
+        self.ui.labelTotalEnergyConsumptionStatistics.setFont(font)
+
+    def resizeEvent(self, event):
+        # Start or restart the timer whenever the window is resized
+        self.resize_timer.start(100)  # 500 ms delay
+
+    def redraw_graphs(self):
+        # Redraw the graphs
+        self.draw_monthly_energy_consumption_statistics()
+        self.draw_total_energy_consumption_statistics()
+        
+    def tab_changed(self, index):
+        # Check if the tabConsumptionAnalytics tab is selected
+        if self.ui.tabWidget.widget(index) is self.ui.tabStatistics:
+            # Redraw the graph
+            self.draw_monthly_energy_consumption_statistics()
+            self.draw_total_energy_consumption_statistics()
+    
     def load_admin_info(self):
         result = self.db_helper.fetch_one("SELECT Fname, Lname FROM users WHERE UserName = %s", (self.admin_username,))
         if result:
@@ -848,6 +887,87 @@ class AdminPanel(QtWidgets.QMainWindow):
         self.db_helper.delete("DELETE FROM usersdevices WHERE UserID = %s", (user_id,))
         self.db_helper.delete("DELETE FROM users WHERE UserName = %s", (username,))
         self.load_user_list()
+
+    def populate_month_combo_boxes(self):
+        query = """
+            SELECT DISTINCT DATE_FORMAT(date, '%Y-%m') as month
+            FROM usages
+            ORDER BY month
+        """
+        data = self.db_helper.fetch_all(query)
+        months = [item[0] for item in data]
+        UIHelper.update_combo_box(self.ui.comboMonthlyEnergyConsumptionStatistics_Month, months)
+
+    def populate_meter_type_combo_boxes(self):
+        query = """
+            SELECT DISTINCT type
+            FROM meter
+        """
+        data = self.db_helper.fetch_all(query)
+        meter_types = [item[0] for item in data]
+        meter_types.insert(0, "All")
+        UIHelper.update_combo_box(self.ui.comboMonthlyEnergyConsumptionStatistics_MeterType, meter_types)
+        UIHelper.update_combo_box(self.ui.comboTotalEnergyConsumptionStatistics_MeterType, meter_types)
+
+    def draw_monthly_energy_consumption_statistics(self):
+        selected_meter_type = self.ui.comboMonthlyEnergyConsumptionStatistics_MeterType.currentText()
+        selected_month = self.ui.comboMonthlyEnergyConsumptionStatistics_Month.currentText()
+        graph_type = self.ui.comboMonthlyEnergyConsumptionStatistics_GraphType.currentText()
+    
+        year, month = map(int, selected_month.split('-'))
+    
+        if selected_meter_type == "All":
+            query = """
+                SELECT meter.location, SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`)
+                FROM usages
+                JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
+                JOIN meter ON usages.meterID = meter.meterID
+                WHERE YEAR(usages.date) = %s AND MONTH(usages.date) = %s
+                GROUP BY meter.location
+            """
+            data = self.db_helper.fetch_all(query, (year, month))
+        else:
+            query = """
+                SELECT meter.location, SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`)
+                FROM usages
+                JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
+                JOIN meter ON usages.meterID = meter.meterID
+                WHERE meter.type = %s AND YEAR(usages.date) = %s AND MONTH(usages.date) = %s
+                GROUP BY meter.location
+            """
+            data = self.db_helper.fetch_all(query, (selected_meter_type, year, month))
+    
+        locations = [item[0] for item in data]
+        usage_amounts = [item[1] for item in data]
+        GraphHelper(self.ui.graphicsMonthlyEnergyConsumptionStatistics).draw_graph(locations, usage_amounts, graph_type, 'monthlyEnergyConsumptionStatistics')
+    
+    def draw_total_energy_consumption_statistics(self):
+        selected_meter_type = self.ui.comboTotalEnergyConsumptionStatistics_MeterType.currentText()
+        graph_type = self.ui.comboTotalEnergyConsumptionStatistics_GraphType.currentText()
+    
+        if selected_meter_type == "All":
+            query = """
+                SELECT meter.location, SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`)
+                FROM usages
+                JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
+                JOIN meter ON usages.meterID = meter.meterID
+                GROUP BY meter.location
+            """
+            data = self.db_helper.fetch_all(query)
+        else:
+            query = """
+                SELECT meter.location, SUM(usages.usageAmount * devicedetails.`PowerConsumption (per Hour)`)
+                FROM usages
+                JOIN devicedetails ON usages.deviceID = devicedetails.DeviceID
+                JOIN meter ON usages.meterID = meter.meterID
+                WHERE meter.type = %s
+                GROUP BY meter.location
+            """
+            data = self.db_helper.fetch_all(query, (selected_meter_type,))
+    
+        locations = [item[0] for item in data]
+        usage_amounts = [item[1] for item in data]
+        GraphHelper(self.ui.graphicsTotalEnergyConsumptionStatistics).draw_graph(locations, usage_amounts, graph_type, 'totalEnergyConsumptionStatistics')
 
 if __name__ == "__main__":
     import sys
