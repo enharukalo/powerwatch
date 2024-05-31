@@ -756,8 +756,8 @@ class AdminPanel(QtWidgets.QMainWindow):
         self.ui.btnUserLIst_ChangePassword.clicked.connect(self.change_password)
         self.ui.btnUserList_ChangeUsername.clicked.connect(self.change_username)
         
-        # Update Username Input
-        self.ui.tableUserList.itemSelectionChanged.connect(self.update_username_input)
+        # Filter user list when the input changes
+        self.ui.inputUserList_Username.textChanged.connect(self.filter_user_list)
 
         self.populate_meter_type_combo_boxes()
         self.populate_month_combo_boxes()
@@ -802,20 +802,26 @@ class AdminPanel(QtWidgets.QMainWindow):
         result = self.db_helper.fetch_one("SELECT Fname, Lname FROM users WHERE UserName = %s", (self.admin_username,))
         if result:
             self.ui.labelHeader_FNameandLnameDynamic.setText(f"{result[0]} {result[1]}")
-
-    def update_username_input(self):
-        selected_rows = self.ui.tableUserList.selectedItems()
-        if selected_rows:
-            selected_username = selected_rows[1].text()
-            self.ui.inputUserList_Username.setText(selected_username)
+            
+    def filter_user_list(self):
+        filter_text = self.ui.inputUserList_Username.text()
+        for i in range(self.ui.tableUserList.rowCount()):
+            item = self.ui.tableUserList.item(i, 1)  # Assuming the username is in the second column
+            self.ui.tableUserList.setRowHidden(i, filter_text not in item.text())
 
     def load_user_list(self):
         results = self.db_helper.fetch_all("SELECT ID, UserName, Fname, Lname, UserType FROM users")
         results = [(str(item[0]), item[1], item[2], item[3], 'Admin' if item[4] == 1 else 'User') for item in results]
         UIHelper.update_table(self.ui.tableUserList, results)
+        
+    def get_selected_username(self):
+        selected_row = self.ui.tableUserList.currentRow()
+        if selected_row == -1:
+            return ""
+        return self.ui.tableUserList.item(selected_row, 1).text()
 
     def open_client(self):
-        username = self.ui.inputUserList_Username.text()
+        username = self.get_selected_username()
         if username == "":
             UIHelper.show_message(self, 'warning', 'Open Client', 'Please select a user.')
             return
@@ -823,7 +829,7 @@ class AdminPanel(QtWidgets.QMainWindow):
         self.main.show()
     
     def make_admin(self):
-        username = self.ui.inputUserList_Username.text()
+        username = self.get_selected_username()
         if username == "":
             UIHelper.show_message(self, 'warning', 'Make Admin', 'Please select a user.')
             return
@@ -847,7 +853,7 @@ class AdminPanel(QtWidgets.QMainWindow):
         self.load_user_list()
         
     def change_password(self):
-        username = self.ui.inputUserList_Username.text()
+        username = self.get_selected_username()
         new_password, ok = QInputDialog.getText(self, 'Change Password', 'Enter new password:')
         if ok:
             if new_password.strip() == "":
@@ -856,7 +862,7 @@ class AdminPanel(QtWidgets.QMainWindow):
             self.db_helper.update("UPDATE users SET Password = %s WHERE UserName = %s", (new_password, username))
     
     def change_username(self):
-        username = self.ui.inputUserList_Username.text()
+        username = self.get_selected_username()
         new_username, ok = QInputDialog.getText(self, 'Change Username', 'Enter new username:')
         if ok:
             if new_username.strip() == "":
@@ -869,7 +875,7 @@ class AdminPanel(QtWidgets.QMainWindow):
             self.load_user_list()
 
     def delete_user(self):
-        username = self.ui.inputUserList_Username.text()
+        username = self.get_selected_username()
         result = self.db_helper.fetch_one("SELECT ID FROM users WHERE UserName = %s", (username,))
         if result is None:
             UIHelper.show_message(self, 'warning', 'Delete User', 'User not found.')
