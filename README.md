@@ -1,6 +1,7 @@
 # PowerWatch - Smart Energy Management System
 
 ![energyInsights](https://github.com/enharukalo/powerwatch/assets/28190290/efc6ebd1-af0f-4e14-8487-d44f69011950)
+![statistics](https://github.com/enharukalo/powerwatch/assets/28190290/a1b696ee-14dc-49aa-9859-681e1d171072)
 
 PowerWatch is a term project for the Database Management Systems course. The main scope of the project is to manage and visualize energy data. It is developed in Python using the PyQt6 library for GUI purposes and the Matplotlib library for displaying graphs.
 
